@@ -3,3 +3,30 @@
 .html {
     font: 13px Helvetica, arial, freesans, clean, sans-serif;
 }
+
+.area {
+  fill: steelblue;
+  clip-path: url(#clip);
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.path {
+    fill: none;
+    stroke: blue;
+}
+
+.y.path {
+    fill: none;
+    stroke: red;
+}
+
+.z.path {
+    fill: none;
+    stroke: green;
+}
