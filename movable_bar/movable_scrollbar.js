@@ -124,7 +124,7 @@ function getPathInfoObj(path) {
              length: length };
 }
 
-d3.json('plot_data.json', function(err, plotData) {
+d3.json('../sample_data/plot_data.json', function(err, plotData) {
     if (err) {
         console.log('Unable to load plot data');
         return;
