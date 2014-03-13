@@ -11,12 +11,17 @@ var width = 1000;
 function createPlot(plotData) {
     var xScale = d3.scale.linear().range([0, width]);
     var yScale = d3.scale.linear().range([height, 0]);
-    xScale.domain(d3.extent(plotData, function(d) {
+    var fullXDomain = d3.extent(plotData, function(d) {
         return parseInt(d.time, 10);
-    }));
-    yScale.domain(d3.extent(plotData, function(d) {
+    });
+
+    xScale.domain(fullXDomain);
+    var allDataExtent = d3.extent(plotData, function(d) {
         return parseInt(d.x, 10);
-    }));
+    }).concat(d3.extent(plotData, function(d) { return parseInt(d.y, 10); }),
+              d3.extent(plotData, function(d) { return parseInt(d.z, 10); }));
+    
+    yScale.domain(d3.extent(allDataExtent));
 
     var xAxis = d3.svg.axis().scale(xScale).orient('bottom');
     var yAxis = d3.svg.axis().scale(yScale).orient('left');
@@ -66,10 +71,18 @@ function createPlot(plotData) {
     var results = d3.select('div#value-container');
     var rangeValue = results.append('p').text('start: ~, end: ~');
     
+    // Reset area select button
+    d3.select('#reset-button').on('click', function() {
+        xScale.domain(fullXDomain);
+        xPath.attr('d', xLine);
+        yPath.attr('d', yLine);
+        zPath.attr('d', zLine);
+    });
+
     function endBrushing() {
         var extents = brush.extent();
         console.log(extents);
-        if ( Math.abs(extents[0] - extents[1]) < 1) {
+        if (Math.abs(extents[0] - extents[1]) < 1) {
             d3.select('.brush').call(brush.clear());
             return;
         }
