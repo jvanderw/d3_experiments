@@ -1,11 +1,6 @@
 
-.body {
+body {
     font: 13px Helvetica, arial, freesans, clean, sans-serif;
-}
-
-.area {
-    fill: steelblue;
-    clip-path: url(#clip);
 }
 
 .axis path,
@@ -38,10 +33,4 @@
 .extent {
     stroke: gray;
     fill-opacity: 0.2;
-}
-
-.brush-line {
-    stroke: orange;
-    fill-opacity: 0.8;
-    stroke-width: 2px;
 }
