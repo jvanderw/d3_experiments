@@ -60,7 +60,7 @@ function createPlot(plotData) {
         .attr("fill", "red");
     
     // Setup brush
-    var brushG = svg.append('g')
+    svg.append('g')
         .attr('class', 'brush')
         .call(brush)
         .selectAll('rect')
@@ -83,15 +83,13 @@ function createPlot(plotData) {
             var current = xScale.invert(mouseX);
             brush.extent([ current, current ]);
             brushLine.attr('x1', mouseX).attr('x2', mouseX);
+
+            timeValue.text('Time: ' + current);
+            xValue.text('x: ' + yScale.invert(getYValueAtScrub(xPathInfo, mouseX)));
+            yValue.text('y: ' + yScale.invert(getYValueAtScrub(yPathInfo, mouseX)));
+            zValue.text('z: ' + yScale.invert(getYValueAtScrub(zPathInfo, mouseX)));
+            circle.attr('cx', mouseX).attr('cy', getYValueAtScrub(zPathInfo, mouseX));
         }
-
-
-        timeValue.text('Time: ' + current);
-        xValue.text('x: ' + yScale.invert(getYValueAtScrub(xPathInfo, mouseX)));
-        yValue.text('y: ' + yScale.invert(getYValueAtScrub(yPathInfo, mouseX)));
-        zValue.text('z: ' + yScale.invert(getYValueAtScrub(zPathInfo, mouseX)));
-        circle.attr('cx', mouseX).attr('cy', getYValueAtScrub(zPathInfo, mouseX));
-            
     }
 }
 
@@ -100,6 +98,7 @@ function getYValueAtScrub(pathInfo, mouseX) {
     var beginning = mouseX;
     var end = pathInfo.length;
     var target;
+    var pos;
     while (true) {
         target = Math.floor((beginning + end) / 2);
         pos = pathInfo.element.getPointAtLength(target);
@@ -127,7 +126,7 @@ function getPathInfoObj(path) {
 
 d3.json('plot_data.json', function(err, plotData) {
     if (err) {
-        console.log('Unable to load plot data')
+        console.log('Unable to load plot data');
         return;
     }
     createPlot(plotData.plotData);
