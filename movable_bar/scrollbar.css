@@ -30,3 +30,19 @@
     fill: none;
     stroke: green;
 }
+
+.brush {
+  stroke: #fff;
+  fill-opacity: .1;
+}
+
+.extent {
+    stroke: white;
+    fill-opacity: 0;
+}
+
+.brush-line {
+    stroke: orange;
+    fill-opacity: 0.8;
+    stroke-width: 2px;
+}
