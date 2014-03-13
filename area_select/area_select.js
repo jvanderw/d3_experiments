@@ -22,8 +22,7 @@ function createPlot(plotData) {
     var yAxis = d3.svg.axis().scale(yScale).orient('left');
 
     var brush = d3.svg.brush().x(xScale);
-    brush.on('brush', brushing)
-        .on('brushstart', brushing).on('brushend', endBrushing);
+    brush.on('brushend', endBrushing);
 
     var xLine = d3.svg.line()
         .x(function(d) {
@@ -67,13 +66,6 @@ function createPlot(plotData) {
     var results = d3.select('div#value-container');
     var rangeValue = results.append('p').text('start: ~, end: ~');
     
-    function brushing() {
-        if (d3.event.sourceEvent) {
-            var mouseX = d3.mouse(this)[0];
-            var current = xScale.invert(mouseX);
-        }
-    }
-
     function endBrushing() {
         var extents = brush.extent();
         console.log(extents);
