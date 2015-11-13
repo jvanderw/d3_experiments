@@ -23,9 +23,10 @@ function yValueTimes(yData) {
 // of a pair.
 function yValuesForPair(pairs, yData) {
     pairs.forEach(function(d) {
+        var lastIdx = 0
         d.yValues = [];
         yData.forEach(function(e) {
-            if (e.time >= d.start && e.time <= d.end) {
+            if (e.time > d.start && e.time < d.end) {
                 d.yValues.push(e);
             }
         });
@@ -48,10 +49,11 @@ function getPairDurations(pairs) {
         }
         d.yValues.map(function(e) {
             e.time = e.time - start;
-            if (e.time > yMax) {
-                yMax = e.time;
-            } else if (e.time < yMin) {
-                yMin = e.time;
+            e.y = +e.y;
+            if (e.y > yMax) {
+                yMax = e.y;
+            } else if (e.y < yMin) {
+                yMin = e.y;
             }
             return e;
         });
@@ -62,15 +64,27 @@ function getPairDurations(pairs) {
 function plotVariability(pairs, yData) {
     yValuesForPair(pairs, yData);
     var bounds = getPairDurations(pairs);
-    console.log(pairs);
 
     var xScale = d3.scale.linear().range([0, WIDTH])
         .domain([0, bounds.xMax]);
     var yScale = d3.scale.linear().range([HEIGHT, 0])
         .domain([bounds.yMin, bounds.yMax]);
 
-    var line = d3.svg.line().x(function(d) { return });
-    
+    var line = d3.svg.line()
+        .x(function(d) { return xScale(d.time); })
+        .y(function(d) { return yScale(d.y); });
+
+    var svg = d3.select('div#plot-container').append('svg')
+        .attr({'width': WIDTH, 'height': HEIGHT})
+    var lineGs = svg.selectAll('g').data(pairs)
+        .enter()
+        .append('g').attr({'width': WIDTH, 'height': HEIGHT});
+
+    lineGs.append('path')
+        .attr('class', 'path left')
+        .attr('d', function(d) {
+            return line(d.yValues);
+        });
 }
 
 // Load the data files and process

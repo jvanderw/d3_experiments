@@ -10,7 +10,8 @@ body {
     shape-rendering: crispEdges;
 }
 
-.line.path {
+.path.left {
     fill: none;
     stroke: blue;
+    opacity: 0.5;
 }
