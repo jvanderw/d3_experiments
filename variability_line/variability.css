@@ -1,0 +1,16 @@
+
+body {
+    font: 13px Helvetica, arial, freesans, clean, sans-serif;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+.line.path {
+    fill: none;
+    stroke: blue;
+}
